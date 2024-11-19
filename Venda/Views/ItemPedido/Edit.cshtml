@@ -1,0 +1,38 @@
+﻿@model Venda.Models.ItemPedido
+
+@{
+    ViewData["Title"] = "Editar Item Pedido";
+}
+
+<h1>Editar Item Pedido</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="PedidoId" />
+            <input type="hidden" asp-for="ProdutoId" />
+            <div class="form-group">
+                <label asp-for="Quantidade" class="control-label"></label>
+                <input asp-for="Quantidade" class="form-control" />
+                <span asp-validation-for="Quantidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrecoUnitario" class="control-label"></label>
+                <input asp-for="PrecoUnitario" class="form-control" />
+                <span asp-validation-for="PrecoUnitario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volte para listagem</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

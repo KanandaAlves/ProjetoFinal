@@ -1,0 +1,46 @@
+﻿@model Venda.Models.Cliente
+
+@{
+    ViewData["Title"] = "Detalhes do Cliente";
+}
+
+<h1>Detalhes do Cliente</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CPF)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CPF)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Telefone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Telefone)
+        </dd>
+    </dl>
+</div>
+<div class="col-sm-14">
+    @{
+        await Html.RenderPartialAsync("~/Views/Cliente/_ComPedidos.cshtml", Model.Pedidos.ToList());
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ClienteId">Editar</a> |
+    <a asp-action="Index">Volte para a listagem</a>
+</div>

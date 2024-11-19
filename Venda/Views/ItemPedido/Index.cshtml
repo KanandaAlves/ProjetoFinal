@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Venda.Models.ItemPedido>
+
+@{
+    ViewData["Title"] = "Item Pedido";
+}
+
+<h1>Itens Pedidos</h1>
+
+<p>
+    <a asp-action="Create">Criar novo item</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Pedido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoUnitario)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pedido.PedidoId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Produto.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantidade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecoUnitario)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Detalhes", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Deletar", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

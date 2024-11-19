@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Venda de Peças</title>
+    <link rel="stylesheet" href="~/js/site.js"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+   
+
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Vendas</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cliente" asp-action="Index">Cliente</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pedido" asp-action="Index">Pedido</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Produto" asp-action="Index">Produto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ItemPedido" asp-action="Index">Itens Pedidos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Movimentacao" asp-action="Index">Movimentação de Produtos</a>
+                        </li>
+                    </ul>
+                    <form id="conversionForm" class="d-flex align-items-center">
+                        <label for="dollarInput" class="form-label me-2 mb-0">Valor em USD:</label>
+                        <input type="number" step="0.01" id="dollarInput" class="form-control me-2" placeholder="Insira valor">
+                        <button type="submit" class="btn btn-primary">Converter</button>
+                        <span id="conversionResult" class="ms-3">Insira um valor</span>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            Desenvolvido por: Arthur Gomes, Kananda Alves, Larissa Vianna, Maíra Guimarães e Sarah Dinne
+        </div>
+    </footer>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let dollarRate = null;
+
+            fetch('/Currency/GetDollarRate')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na resposta da API');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    dollarRate = parseFloat(data.rate).toFixed(2);
+                    console.log(`Cotação do dólar obtida: ${dollarRate}`); // Log para depuração
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar a cotação do dólar:', error);
+                });
+
+            document.getElementById("conversionForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const dollarInput = document.getElementById("dollarInput").value;
+                const conversionResult = document.getElementById("conversionResult");
+
+                console.log(`Valor inserido: ${dollarInput}, Cotação: ${dollarRate}`); // Log para depuração
+
+                if (!dollarRate || dollarInput === "") {
+                    conversionResult.innerText = "Cotação ou valor inválido.";
+                    return;
+                }
+
+                const convertedValue = (parseFloat(dollarInput) * parseFloat(dollarRate)).toFixed(2);
+                conversionResult.innerText = `R$ ${convertedValue}`;
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
